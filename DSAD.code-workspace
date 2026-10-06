@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "DSAD",
+			"path": "."
+		}
+	],
+	"settings": {
+		"dotnet.defaultSolution": "DSAD/testC#.sln"
+	}
+}
