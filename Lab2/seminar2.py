@@ -8,7 +8,7 @@ os.makedirs("data_out", exist_ok=True)
 
 
 # Requirement 1 - Load file
-df = pd.read_csv("/home/myo/Downloads/winequality-red.csv")
+df = pd.read_csv("winequality-red.csv")
 
 # Shape
 print("\nShape:")
