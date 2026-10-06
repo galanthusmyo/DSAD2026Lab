@@ -2,13 +2,14 @@ import os
 import pandas as pd
 from scipy.spatial.distance import cdist
 
-
 # Create output folder
 os.makedirs("data_out", exist_ok=True)
 
 
 # Requirement 1 - Load file
-df = pd.read_csv("winequality-red.csv")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(base_dir, "winequality-red.csv")
+df = pd.read_csv(csv_path)
 
 # Shape
 print("\nShape:")
