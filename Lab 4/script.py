@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import kagglehub
+import seaborn as sns
+import scikitlearn
 
 fig = plt.figure(figsize=(9, 6))
 ax = fig.add_subplot(1,1,1)
@@ -37,4 +40,43 @@ r = np.array([
 
 sns.heatmap(r, annot=True, cmap="coolwarm", xticklabels=["A", "B", "C"], yticklabels=["A", "B", "C"])
 
+plt.show()
+
+
+### PCA example
+
+#1. import dataset
+
+t = pd.read_csv("iris.data.csv")
+
+#2. select 4 numerical variables
+
+
+t.columns = ["SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm", "Species"]
+
+X = t.iloc[:, :4]
+
+#3. standardize the variables
+X_scaled = StandardScaler().fit_transform(X)
+
+#4. apply PCA: reduce from 4 variables to 2 PC 
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+#5. Create a df with the new components
+result = pd.DataFrame(data=X_pca, columns=["PC1", "PC2"])
+result["Species"] = t["Species"]
+
+#6. See how much variance is preserved
+print("Explained variance:", pca.explained_variance_ratio_)
+print("Total variance preserved:", pca.explained_variance_ratio_.sum())
+
+#7. visualize the results
+for species, group in result.groupby("Species"):
+    plt.scatter(group["PC1"], group["PC2"], label=species, c=species)
+
+plt.xlabel("PCA1")
+plt.ylabel("PCA2")
+plt.title("PCA1 vs PCA2")
+plt.legend()
 plt.show()
