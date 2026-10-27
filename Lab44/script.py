@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import kagglehub
 import seaborn as sns
-import scikitlearn
+from pathlib import Path
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 fig = plt.figure(figsize=(9, 6))
 ax = fig.add_subplot(1,1,1)
@@ -24,14 +25,14 @@ t = pd.DataFrame({
     "comp2": [0.4,-1.2,0.9,1.5],
 }, index=["RO", "HU", "DE", "FR"])
 
-t.plot.scatter(x="comp1", y="comp2", s=200, color="green", title="Scatterplot", xlabel="Component 1", ylabel="Component 2",)
+ax = t.plot.scatter(x="comp1", y="comp2", s=200, color="green", title="Scatterplot", xlabel="Component 1", ylabel="Component 2",)
+for label, row in t.iterrows():
+    ax.annotate(label, (row["comp1"], row["comp2"]))
 print(t)
 
 plt.show()
 
 #3 heatmap
-import seaborn as sns
-
 r = np.array([
     [1.0, 0.72, -0.15],
     [0.72, 1.0, 0.31],
@@ -47,7 +48,7 @@ plt.show()
 
 #1. import dataset
 
-t = pd.read_csv("iris.data.csv")
+t = pd.read_csv(Path(__file__).resolve().parent / "iris.data.csv", header=None)
 
 #2. select 4 numerical variables
 
@@ -73,7 +74,7 @@ print("Total variance preserved:", pca.explained_variance_ratio_.sum())
 
 #7. visualize the results
 for species, group in result.groupby("Species"):
-    plt.scatter(group["PC1"], group["PC2"], label=species, c=species)
+    plt.scatter(group["PC1"], group["PC2"], label=species)
 
 plt.xlabel("PCA1")
 plt.ylabel("PCA2")
